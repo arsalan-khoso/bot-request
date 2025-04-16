@@ -2356,3 +2356,95 @@
 2025-04-16 16:29:56,006 - werkzeug - INFO -  * Restarting with stat
 2025-04-16 16:29:57,288 - werkzeug - WARNING -  * Debugger is active!
 2025-04-16 16:29:57,293 - werkzeug - INFO -  * Debugger PIN: 386-850-684
+2025-04-16 19:20:13,133 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.59.69:5000
+2025-04-16 19:20:13,134 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-16 19:20:13,137 - werkzeug - INFO -  * Restarting with stat
+2025-04-16 19:20:14,183 - werkzeug - WARNING -  * Debugger is active!
+2025-04-16 19:20:14,187 - werkzeug - INFO -  * Debugger PIN: 386-850-684
+2025-04-16 19:20:16,425 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:16] "GET / HTTP/1.1" 200 -
+2025-04-16 19:20:16,491 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-16 19:20:19,036 - GlassScraper - INFO - Starting Import Glass Corp scraper for part: 2000
+2025-04-16 19:20:19,037 - Scrapers.igc_scraper - INFO - [IGC] Starting login process
+2025-04-16 19:20:19,037 - GlassScraper - INFO - Starting Mygrant Glass scraper for part: 2000
+2025-04-16 19:20:19,038 - GlassScraper - INFO - Starting Pilkington scraper for part: 2000
+2025-04-16 19:20:19,040 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-16 19:20:19,040 - GlassScraper - INFO - Logging in to Pilkington website
+2025-04-16 19:20:19,041 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:19] "[32mPOST /search HTTP/1.1[0m" 302 -
+2025-04-16 19:20:19,042 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-16 19:20:19,047 - Scrapers.mygrant_scraper - INFO - [Mygrant] Searching for part number: 2000
+2025-04-16 19:20:19,049 - GlassScraper - INFO - Searching part in PWG: 2000
+2025-04-16 19:20:19,052 - Scrapers.mygrant_scraper - INFO - Logging in to MyGrant
+2025-04-16 19:20:19,054 - GlassScraper - INFO - Checking if already logged in
+2025-04-16 19:20:19,106 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:19] "GET /results/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:19,134 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-16 19:20:19,148 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:19] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:20,151 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:20] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:20,354 - Scrapers.mygrant_scraper - ERROR - Failed to get login page. Status code: 403
+2025-04-16 19:20:20,354 - Scrapers.mygrant_scraper - INFO - [Mygrant] Searching for part number: 2000
+2025-04-16 19:20:20,355 - Scrapers.mygrant_scraper - INFO - Logging in to MyGrant
+2025-04-16 19:20:20,557 - Scrapers.mygrant_scraper - ERROR - Failed to get login page. Status code: 403
+2025-04-16 19:20:20,576 - GlassScraper - INFO - Mygrant Glass scraper completed in 1.54s for part 2000
+2025-04-16 19:20:20,648 - Scrapers.igc_scraper - INFO - [IGC] Saved cookies are invalid, performing fresh login
+2025-04-16 19:20:21,033 - GlassScraper - INFO - Proceeding with login
+2025-04-16 19:20:21,245 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:21] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:21,728 - GlassScraper - WARNING - Could not find login form
+2025-04-16 19:20:21,728 - GlassScraper - INFO - Trying direct navigation to bypass login
+2025-04-16 19:20:22,056 - Scrapers.igc_scraper - INFO - [IGC] Login successful!
+2025-04-16 19:20:22,058 - Scrapers.igc_scraper - INFO - [IGC] Searching for part number: 2000
+2025-04-16 19:20:22,143 - GlassScraper - INFO - Direct navigation successful - bypassed login
+2025-04-16 19:20:22,145 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-16 19:20:22,209 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:22] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:22,319 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-16 19:20:22,427 - Scrapers.igc_scraper - INFO - [IGC] Found 7 parts in search results in 0.37 seconds
+2025-04-16 19:20:22,427 - Scrapers.igc_scraper - INFO - [IGC] Processing details for 7 parts
+2025-04-16 19:20:22,499 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-16 19:20:22,675 - GlassScraper - INFO - Retrying search (attempt 2/2)
+2025-04-16 19:20:23,150 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:23] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:23,676 - GlassScraper - INFO - Using cached Pilkington login session
+2025-04-16 19:20:23,677 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-16 19:20:23,858 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-16 19:20:24,072 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-16 19:20:24,233 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:24] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:24,287 - GlassScraper - WARNING - No parts found for 2000 after 2 attempts, returning default parts
+2025-04-16 19:20:24,288 - GlassScraper - INFO - Pilkington scraper completed in 5.25 seconds (default data)
+2025-04-16 19:20:24,288 - GlassScraper - INFO - Pilkington scraper completed in 5.25s for part 2000
+2025-04-16 19:20:25,248 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:25] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:25,484 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: DW02000, Availability: Yes, Price: $151.62, Location: Opa-Locka
+2025-04-16 19:20:25,484 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: FW02000, Availability: Yes, Price: $80.66, Location: Opa-Locka
+2025-04-16 19:20:25,485 - Scrapers.igc_scraper - INFO - [IGC] Processed 2/7 parts in 3.06 seconds
+2025-04-16 19:20:25,485 - GlassScraper - INFO - Import Glass Corp scraper completed in 6.45s for part 2000
+2025-04-16 19:20:26,233 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:26] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:27,249 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:27] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:28,246 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:28] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:29,249 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:29] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:30,233 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:30] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:31,239 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:31] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:32,238 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:32] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:33,249 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:33] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:34,234 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:34] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:34,260 - GlassScraper - WARNING - Error accessing https://buypgwautoglass.com/PartSearch/search.asp?REG=&UserType=F&ShipToNo=85605&PB=544: HTTPSConnectionPool(host='buypgwautoglass.com', port=443): Max retries exceeded with url: /PartSearch/search.asp?REG=&UserType=F&ShipToNo=85605&PB=544 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001D63F6AF750>, 'Connection to buypgwautoglass.com timed out. (connect timeout=15)'))
+2025-04-16 19:20:35,244 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:35] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:36,243 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:36] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:37,233 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:37] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:38,150 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:38] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:39,149 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:39] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:40,153 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:40] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:41,245 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:41] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:42,248 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:42] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:43,246 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:43] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:44,247 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:44] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:45,243 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:45] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:46,245 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:46] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:47,149 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:47] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:48,244 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:48] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:49,245 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:49] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:49,366 - GlassScraper - WARNING - Error accessing https://buypgwautoglass.com/PartSearch/default.asp: HTTPSConnectionPool(host='buypgwautoglass.com', port=443): Max retries exceeded with url: /PartSearch/default.asp (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001D63F6AD6D0>, 'Connection to buypgwautoglass.com timed out. (connect timeout=15)'))
+2025-04-16 19:20:49,366 - GlassScraper - WARNING - Could not find part 2000 on any PWG URLs
+2025-04-16 19:20:49,366 - GlassScraper - INFO - Returning default parts after 30.32s
+2025-04-16 19:20:49,367 - GlassScraper - INFO - PWG scraper completed in 30.33s
+2025-04-16 19:20:49,367 - GlassScraper - INFO - PWG scraper completed in 30.33s for part 2000
+2025-04-16 19:20:50,243 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:50] "GET /api/status/2000 HTTP/1.1" 200 -
+2025-04-16 19:20:50,254 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:50] "GET /api/results/2000 HTTP/1.1" 200 -
