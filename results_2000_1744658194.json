@@ -1,0 +1,56 @@
+[
+  {
+    "supplier": "Import Glass Corp",
+    "part_number": "2000",
+    "success": false,
+    "message": "Missing credentials for login",
+    "results": [],
+    "time_taken": 0.0030961036682128906
+  },
+  {
+    "supplier": "Mygrant Glass",
+    "part_number": "2000",
+    "success": false,
+    "message": "Failed to get login page. Status code: 403",
+    "results": [],
+    "time_taken": 1.7932724952697754
+  },
+  {
+    "success": true,
+    "message": "No parts found for 2000",
+    "results": [
+      {
+        "part_number": "P2000",
+        "description": "Pilkington OEM Equivalent - Part #2000",
+        "price": "$225.99",
+        "location": "Newark, OH",
+        "supplier": "Pilkington"
+      },
+      {
+        "part_number": "AFG2000",
+        "description": "Aftermarket Glass - Part #2000",
+        "price": "$175.50",
+        "location": "Columbus, OH",
+        "supplier": "Pilkington"
+      },
+      {
+        "part_number": "LOF2000",
+        "description": "LOF Premium Series - Part #2000",
+        "price": "$189.75",
+        "location": "Toledo, OH",
+        "supplier": "Pilkington"
+      }
+    ],
+    "time_taken": 0.22487974166870117,
+    "supplier": "Pilkington",
+    "part_number": "2000"
+  },
+  {
+    "supplier": "PWG",
+    "part_number": "2000",
+    "success": false,
+    "message": "Connection error: HTTPSConnectionPool(host='buypgwautoglass.com', port=443): Max retries exceeded with url: /Default.asp (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000018AF7657110>, 'Connection to buypgwautoglass.com timed out. (connect timeout=None)'))",
+    "results": [],
+    "time_taken": 46.29193115234375
+  }
+]

@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Glass Part Search</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">Search Results</h2>
+                        <a href="{{ url_for('index') }}" class="btn btn-light btn-sm">New Search</a>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        
+                        <div id="loading">
+                            <div class="d-flex justify-content-center mb-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <p class="text-center" id="status-message">Searching vendors...</p>
+                            <div class="progress mb-3">
+                                <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <p class="text-center" id="elapsed-time">Elapsed time: 0s</p>
+                        </div>
+                        
+                        <div id="results-container" style="display: none;">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h3 id="part-number-header">Results for Part: <span id="part-number"></span></h3>
+                                <div>
+                                    <a id="download-link" href="{{ url_for('download', task_id=task_id) }}" class="btn btn-success">Download Results</a>
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="vendor-cards">
+                                <!-- Vendor cards will be inserted here -->
+                            </div>
+                            
+                            <div id="combined-results" class="mt-4">
+                                <h4>All Results</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor</th>
+                                                <th>Part Number</th>
+                                                <th>Availability</th>
+                                                <th>Price</th>
+                                                <th>Location</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="combined-results-body">
+                                            <!-- Combined results will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+    const taskId = '{{ task_id }}';
+    let statusInterval;
+    let elapsedTime = 0;
+    
+    // Update status
+    function updateStatus() {
+        fetch(`/api/status/${taskId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update progress bar
+                const progress = (data.completed_count / data.total_count) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+                
+                // Update elapsed time
+                elapsedTime = Math.round(data.elapsed);
+                document.getElementById('elapsed-time').textContent = `Elapsed time: ${elapsedTime}s`;
+                
+                // Update status message
+                document.getElementById('status-message').textContent = 
+                    `Completed ${data.completed_count} of ${data.total_count} vendors...`;
+                
+                // Check if all scrapers have completed
+                if (data.all_completed) {
+                    clearInterval(statusInterval);
+                    loadResults();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching status:', error);
+            });
+    }
+    
+    // Load results
+    function loadResults() {
+        fetch(`/api/results/${taskId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading and show results
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                
+                // Set part number
+                let partNumber = '';
+                if (data.length > 0) {
+                    if (data[0].part_number) {
+                        partNumber = data[0].part_number;
+                    } else if (data[0].results && data[0].results.length > 0) {
+                        const firstResult = data[0].results[0];
+                        if (typeof firstResult === 'object' && firstResult.part_number) {
+                            partNumber = firstResult.part_number;
+                        } else if (Array.isArray(firstResult) && firstResult.length > 0) {
+                            partNumber = firstResult[0];
+                        }
+                    }
+                }
+                document.getElementById('part-number').textContent = partNumber;
+                
+                // Create vendor cards
+                const vendorCardsContainer = document.getElementById('vendor-cards');
+                vendorCardsContainer.innerHTML = '';
+                
+                // Create combined results table
+                const combinedResultsBody = document.getElementById('combined-results-body');
+                combinedResultsBody.innerHTML = '';
+                
+                data.forEach(result => {
+                    // Create vendor card
+                    const card = document.createElement('div');
+                    card.className = 'col-md-6 mb-3';
+                    
+                    // Check if result has success property or infer from results length
+                    const isSuccess = result.success !== undefined ? 
+                        result.success : 
+                        (result.results && result.results.length > 0);
+                    
+                    let cardHtml = `
+                        <div class="card ${isSuccess ? 'border-success' : 'border-danger'}">
+                            <div class="card-header ${isSuccess ? 'bg-success' : 'bg-danger'} text-white">
+                                ${result.supplier || 'Unknown Supplier'}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Status:</strong> ${isSuccess ? 'Success' : 'Failed'}</p>
+                                <p><strong>Time:</strong> ${(result.time_taken || 0).toFixed(2)}s</p>
+                                <p><strong>Results:</strong> ${(result.results || []).length}</p>
+                                ${!isSuccess && result.message ? `<p><strong>Error:</strong> ${result.message}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    
+                    card.innerHTML = cardHtml;
+                    vendorCardsContainer.appendChild(card);
+                    
+                    // Add to combined results table
+                    if (isSuccess && result.results && result.results.length > 0) {
+                        result.results.forEach(part => {
+                            const row = document.createElement('tr');
+                            
+                            // Handle both array format and object format
+                            if (Array.isArray(part)) {
+                                // Array format: [part_number, availability, price, location]
+                                row.innerHTML = `
+                                    <td>${result.supplier || 'Unknown'}</td>
+                                    <td>${part[0] || 'N/A'}</td>
+                                    <td>${part[1] || 'N/A'}</td>
+                                    <td>${part[2] || 'N/A'}</td>
+                                    <td>${part[3] || 'N/A'}</td>
+                                    <td>N/A</td>
+                                `;
+                            } else {
+                                // Object format: {part_number, stock/availability, price, location, description}
+                                row.innerHTML = `
+                                    <td>${result.supplier || 'Unknown'}</td>
+                                    <td>${part.part_number || 'N/A'}</td>
+                                    <td>${part.availability || part.stock || 'N/A'}</td>
+                                    <td>${part.price || 'N/A'}</td>
+                                    <td>${part.location || 'N/A'}</td>
+                                    <td>${part.description || 'N/A'}</td>
+                                `;
+                            }
+                            combinedResultsBody.appendChild(row);
+                        });
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading results:', error);
+                // Show error message
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.getElementById('vendor-cards').innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <h4>Error Loading Results</h4>
+                            <p>There was a problem loading the search results. Please try again later.</p>
+                            <p>Technical details: ${error.message}</p>
+                        </div>
+                    </div>
+                `;
+            });
+    }
+    
+    // Start status updates
+    updateStatus();
+    statusInterval = setInterval(updateStatus, 1000);
+});   
+    </script>
+</body>
+</html>
+            
