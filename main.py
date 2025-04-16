@@ -315,11 +315,12 @@
 # if __name__ == '__main__':
 #     # Run the Flask app
 #     app.run(debug=True, host='0.0.0.0', port=5000)
+
+
 # app.py
 # Flask application for glass part scraping
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session
-import asyncio
 import threading
 import time
 import logging
@@ -327,7 +328,7 @@ import os
 import json
 from datetime import datetime
 from dotenv import load_dotenv
-from concurrent.futures import ThreadPoolExecutor
+import uuid
 
 # Import all scrapers
 from Scrapers.igc_scraper import IGCScraper
@@ -343,7 +344,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("glass_scraper.log"),
+        logging.FileHandler("glass_scraper.log") if os.getenv('GAE_ENV', '') == '' else logging.StreamHandler(),
         logging.StreamHandler()
     ]
 )
@@ -355,10 +356,11 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev_secret_key')  # Set a secure secret key in production
 
 # Create a dictionary to store search results
+# In production, consider using a database or cloud storage instead of in-memory
 search_results = {}
 
 # Function to run a scraper in a thread
-def run_scraper(scraper_class, scraper_name, part_number):
+def run_scraper(scraper_class, scraper_name, part_number, task_id):
     start_time = time.time()
     logger.info(f"Starting {scraper_name} scraper for part: {part_number}")
     
@@ -423,11 +425,11 @@ def run_scraper(scraper_class, scraper_name, part_number):
         
         # Update the search results
         with threading.Lock():
-            if part_number in search_results:
-                search_results[part_number]["results"][scraper_name] = search_result
-                search_results[part_number]["completed_count"] += 1
-                if search_results[part_number]["completed_count"] >= len(search_results[part_number]["scrapers"]):
-                    search_results[part_number]["all_completed"] = True
+            if task_id in search_results:
+                search_results[task_id]["results"][scraper_name] = search_result
+                search_results[task_id]["completed_count"] += 1
+                if search_results[task_id]["completed_count"] >= len(search_results[task_id]["scrapers"]):
+                    search_results[task_id]["all_completed"] = True
         
         # Log completion
         elapsed = time.time() - start_time
@@ -439,8 +441,8 @@ def run_scraper(scraper_class, scraper_name, part_number):
         
         # Update the search results with the error
         with threading.Lock():
-            if part_number in search_results:
-                search_results[part_number]["results"][scraper_name] = {
+            if task_id in search_results:
+                search_results[task_id]["results"][scraper_name] = {
                     "supplier": scraper_name,
                     "part_number": part_number,
                     "success": False,
@@ -449,13 +451,15 @@ def run_scraper(scraper_class, scraper_name, part_number):
                     "time_taken": elapsed,
                     "completed": True,
                 }
-                search_results[part_number]["completed_count"] += 1
-                if search_results[part_number]["completed_count"] >= len(search_results[part_number]["scrapers"]):
-                    search_results[part_number]["all_completed"] = True
+                search_results[task_id]["completed_count"] += 1
+                if search_results[task_id]["completed_count"] >= len(search_results[task_id]["scrapers"]):
+                    search_results[task_id]["all_completed"] = True
 
 
-# Update the run_all_scrapers function
+# Updated run_all_scrapers function
 def run_all_scrapers(part_number, selected_scrapers=None):
+    task_id = str(uuid.uuid4())
+    
     # Define available scrapers
     scrapers = {
         "Import Glass Corp": IGCScraper,
@@ -469,7 +473,7 @@ def run_all_scrapers(part_number, selected_scrapers=None):
         scrapers = {k: v for k, v in scrapers.items() if k in selected_scrapers}
     
     # Initialize search results entry
-    search_results[part_number] = {
+    search_results[task_id] = {
         "part_number": part_number,
         "start_time": time.time(),
         "results": {},
@@ -480,7 +484,7 @@ def run_all_scrapers(part_number, selected_scrapers=None):
     
     # Set initial results for each scraper
     for scraper_name in scrapers.keys():
-        search_results[part_number]["results"][scraper_name] = {
+        search_results[task_id]["results"][scraper_name] = {
             "supplier": scraper_name,
             "part_number": part_number,
             "success": False,
@@ -495,14 +499,14 @@ def run_all_scrapers(part_number, selected_scrapers=None):
     for scraper_name, scraper_class in scrapers.items():
         thread = threading.Thread(
             target=run_scraper,
-            args=(scraper_class, scraper_name, part_number)
+            args=(scraper_class, scraper_name, part_number, task_id)
         )
         thread.daemon = True
         thread.start()
         threads.append(thread)
     
-    # Return the part_number for status checking
-    return part_number
+    # Return the task ID for status checking
+    return task_id
 
 @app.route('/')
 def index():
@@ -522,41 +526,41 @@ def search():
         return redirect(url_for('index'))
     
     # Start the scraping process
-    run_all_scrapers(part_number, selected_scrapers)
+    task_id = run_all_scrapers(part_number, selected_scrapers)
     
     # Redirect to results page
-    return redirect(url_for('results', part_number=part_number))
+    return redirect(url_for('results', task_id=task_id))
 
-@app.route('/results/<part_number>')
-def results(part_number):
-    # Check if search exists
-    if part_number not in search_results:
-        flash('Invalid part number or search not started', 'error')
+@app.route('/results/<task_id>')
+def results(task_id):
+    # Check if task exists
+    if task_id not in search_results:
+        flash('Invalid task ID', 'error')
         return redirect(url_for('index'))
     
-    return render_template('results.html', part_number=part_number)
+    return render_template('results.html', task_id=task_id)
 
-@app.route('/api/status/<part_number>')
-def status(part_number):
-    # Check if search exists
-    if part_number not in search_results:
-        return jsonify({"error": "Invalid part number or search not started"}), 404
+@app.route('/api/status/<task_id>')
+def status(task_id):
+    # Check if task exists
+    if task_id not in search_results:
+        return jsonify({"error": "Invalid task ID"}), 404
     
     # Calculate elapsed time
-    elapsed = time.time() - search_results[part_number]["start_time"]
+    elapsed = time.time() - search_results[task_id]["start_time"]
     
     # Prepare response
     response = {
-        "part_number": part_number,
+        "part_number": search_results[task_id]["part_number"],
         "elapsed": elapsed,
-        "all_completed": search_results[part_number]["all_completed"],
-        "completed_count": search_results[part_number]["completed_count"],
-        "total_count": len(search_results[part_number]["scrapers"]),
+        "all_completed": search_results[task_id]["all_completed"],
+        "completed_count": search_results[task_id]["completed_count"],
+        "total_count": len(search_results[task_id]["scrapers"]),
         "results": {}
     }
     
     # Add results for each scraper
-    for scraper_name, result in search_results[part_number]["results"].items():
+    for scraper_name, result in search_results[task_id]["results"].items():
         response["results"][scraper_name] = {
             "completed": result.get("completed", False),
             "success": result.get("success", False),
@@ -567,43 +571,43 @@ def status(part_number):
     
     return jsonify(response)
 
-@app.route('/api/results/<part_number>')
-def api_results(part_number):
-    # Check if search exists
-    if part_number not in search_results:
-        return jsonify({"error": "Invalid part number or search not started"}), 404
+@app.route('/api/results/<task_id>')
+def api_results(task_id):
+    # Check if task exists
+    if task_id not in search_results:
+        return jsonify({"error": "Invalid task ID"}), 404
     
     # Check if all scrapers have completed
-    if not search_results[part_number]["all_completed"]:
-        return jsonify({"error": "Search still in progress"}), 400
+    if not search_results[task_id]["all_completed"]:
+        return jsonify({"error": "Task still in progress"}), 400
     
     # Prepare full results
     results = []
-    for scraper_name, result in search_results[part_number]["results"].items():
+    for scraper_name, result in search_results[task_id]["results"].items():
         results.append(result)
     
     return jsonify(results)
 
-@app.route('/download/<part_number>')
-def download(part_number):
-    # Check if search exists
-    if part_number not in search_results:
-        flash('Invalid part number or search not started', 'error')
+@app.route('/download/<task_id>')
+def download(task_id):
+    # Check if task exists
+    if task_id not in search_results:
+        flash('Invalid task ID', 'error')
         return redirect(url_for('index'))
     
     # Check if all scrapers have completed
-    if not search_results[part_number]["all_completed"]:
-        flash('Search still in progress', 'warning')
-        return redirect(url_for('results', part_number=part_number))
+    if not search_results[task_id]["all_completed"]:
+        flash('Task still in progress', 'warning')
+        return redirect(url_for('results', task_id=task_id))
     
     # Prepare results for download
     results = []
-    for scraper_name, result in search_results[part_number]["results"].items():
+    for scraper_name, result in search_results[task_id]["results"].items():
         results.append(result)
     
     # Create response
     response = jsonify(results)
-    response.headers['Content-Disposition'] = f'attachment; filename=results_{part_number}_{int(time.time())}.json'
+    response.headers['Content-Disposition'] = f'attachment; filename=results_{search_results[task_id]["part_number"]}_{int(time.time())}.json'
     return response
 
 # Cleanup old results periodically
@@ -611,25 +615,27 @@ def cleanup_old_results():
     while True:
         current_time = time.time()
         # Keep results for 1 hour (3600 seconds)
-        to_delete = [part_number for part_number, search in search_results.items() 
-                    if current_time - search["start_time"] > 3600]
+        to_delete = [task_id for task_id, task in search_results.items() 
+                    if current_time - task["start_time"] > 3600]
         
-        for part_number in to_delete:
+        for task_id in to_delete:
             with threading.Lock():
-                if part_number in search_results:
-                    del search_results[part_number]
+                if task_id in search_results:
+                    del search_results[task_id]
         
         # Check every 5 minutes
         time.sleep(300)
 
-# Start cleanup thread
-cleanup_thread = threading.Thread(target=cleanup_old_results)
-cleanup_thread.daemon = True
-cleanup_thread.start()
+# Start cleanup thread when not running on App Engine
+if os.getenv('GAE_ENV', '') == '':
+    cleanup_thread = threading.Thread(target=cleanup_old_results)
+    cleanup_thread.daemon = True
+    cleanup_thread.start()
 
 if __name__ == '__main__':
-    # Run the Flask app
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-
+    # For local development
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+else:
+    # When running in production
+    # Make sure gunicorn is handling the server, not the development server
+    pass

@@ -1,0 +1,7 @@
+runtime: python39  # Use Python 3.9
+
+entrypoint: gunicorn -b :$PORT app:app --workers 2 --threads 8 --timeout 120
+
+# Environment variables
+env_variables:
+  SECRET_KEY: "dasdjfkhkh7875983748953klajakdfjladsjfh7"  # Replace with a secure key in production
