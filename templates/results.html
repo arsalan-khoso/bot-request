@@ -116,125 +116,100 @@
     }
     
     // Load results
-function loadResults() {
-    fetch(`/api/results/${partNumber}`)
-        .then(response => response.json())
-        .then(data => {
-            // Hide loading and show results
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('results-container').style.display = 'block';
-            
-            // Set part number
-            document.getElementById('part-number').textContent = partNumber;
-            
-            // Create vendor cards
-            const vendorCardsContainer = document.getElementById('vendor-cards');
-            vendorCardsContainer.innerHTML = '';
-            
-            // Create combined results table
-            const combinedResultsBody = document.getElementById('combined-results-body');
-            combinedResultsBody.innerHTML = '';
-            
-            // Check if data is an array, if not, try to extract the array from the data object
-            let resultsArray = data;
-            
-            // If data is not an array but has a 'results' property that is an array, use that
-            if (!Array.isArray(data) && data.results && Array.isArray(data.results)) {
-                resultsArray = data.results;
-            } 
-            // If data is not an array and doesn't have a results array, convert to array if it's an object
-            else if (!Array.isArray(data) && typeof data === 'object') {
-                // Try to convert object to array if it has vendor/supplier properties
-                resultsArray = Object.values(data).filter(item => typeof item === 'object');
+    function loadResults() {
+        fetch(`/api/results/${partNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading and show results
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
                 
-                // If we still don't have an array with items, create a single item array with the data
-                if (resultsArray.length === 0) {
-                    console.warn('Could not convert data to array format, using as single result', data);
-                    resultsArray = [data];
-                }
-            }
-            
-            // If we still don't have an array, log error and create empty array
-            if (!Array.isArray(resultsArray)) {
-                console.error('Could not process data format:', data);
-                resultsArray = [];
-            }
+                // Set part number
+                document.getElementById('part-number').textContent = partNumber;
                 
-            resultsArray.forEach(result => {
-                // Create vendor card
-                const card = document.createElement('div');
-                card.className = 'col-md-6 mb-3';
+                // Create vendor cards
+                const vendorCardsContainer = document.getElementById('vendor-cards');
+                vendorCardsContainer.innerHTML = '';
                 
-                // Check if result has success property or infer from results length
-                const isSuccess = result.success !== undefined ? 
-                    result.success : 
-                    (result.results && result.results.length > 0);
+                // Create combined results table
+                const combinedResultsBody = document.getElementById('combined-results-body');
+                combinedResultsBody.innerHTML = '';
                 
-                let cardHtml = `
-                    <div class="card ${isSuccess ? 'border-success' : 'border-danger'}">
-                        <div class="card-header ${isSuccess ? 'bg-success' : 'bg-danger'} text-white">
-                            ${result.supplier || 'Unknown Supplier'}
+                data.forEach(result => {
+                    // Create vendor card
+                    const card = document.createElement('div');
+                    card.className = 'col-md-6 mb-3';
+                    
+                    // Check if result has success property or infer from results length
+                    const isSuccess = result.success !== undefined ? 
+                        result.success : 
+                        (result.results && result.results.length > 0);
+                    
+                    let cardHtml = `
+                        <div class="card ${isSuccess ? 'border-success' : 'border-danger'}">
+                            <div class="card-header ${isSuccess ? 'bg-success' : 'bg-danger'} text-white">
+                                ${result.supplier || 'Unknown Supplier'}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Status:</strong> ${isSuccess ? 'Success' : 'Failed'}</p>
+                                <p><strong>Time:</strong> ${(result.time_taken || 0).toFixed(2)}s</p>
+                                <p><strong>Results:</strong> ${(result.results || []).length}</p>
+                                ${!isSuccess && result.message ? `<p><strong>Error:</strong> ${result.message}</p>` : ''}
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <p><strong>Status:</strong> ${isSuccess ? 'Success' : 'Failed'}</p>
-                            <p><strong>Time:</strong> ${(result.time_taken || 0).toFixed(2)}s</p>
-                            <p><strong>Results:</strong> ${(result.results || []).length}</p>
-                            ${!isSuccess && result.message ? `<p><strong>Error:</strong> ${result.message}</p>` : ''}
+                    `;
+                    
+                    card.innerHTML = cardHtml;
+                    vendorCardsContainer.appendChild(card);
+                    
+                    // Add to combined results table
+                    if (isSuccess && result.results && result.results.length > 0) {
+                        result.results.forEach(part => {
+                            const row = document.createElement('tr');
+                            
+                            // Handle both array format and object format
+                            if (Array.isArray(part)) {
+                                // Array format: [part_number, availability, price, location]
+                                row.innerHTML = `
+                                    <td>${result.supplier || 'Unknown'}</td>
+                                    <td>${part[0] || 'N/A'}</td>
+                                    <td>${part[1] || 'N/A'}</td>
+                                    <td>${part[2] || 'N/A'}</td>
+                                    <td>${part[3] || 'N/A'}</td>
+                                    <td>N/A</td>
+                                `;
+                            } else {
+                                // Object format: {part_number, stock/availability, price, location, description}
+                                row.innerHTML = `
+                                    <td>${result.supplier || 'Unknown'}</td>
+                                    <td>${part.part_number || 'N/A'}</td>
+                                    <td>${part.availability || part.stock || 'N/A'}</td>
+                                    <td>${part.price || 'N/A'}</td>
+                                    <td>${part.location || 'N/A'}</td>
+                                    <td>${part.description || 'N/A'}</td>
+                                `;
+                            }
+                            combinedResultsBody.appendChild(row);
+                        });
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading results:', error);
+                // Show error message
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.getElementById('vendor-cards').innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <h4>Error Loading Results</h4>
+                            <p>There was a problem loading the search results. Please try again later.</p>
+                            <p>Technical details: ${error.message}</p>
                         </div>
                     </div>
                 `;
-                
-                card.innerHTML = cardHtml;
-                vendorCardsContainer.appendChild(card);
-                
-                // Add to combined results table
-                if (isSuccess && result.results && result.results.length > 0) {
-                    result.results.forEach(part => {
-                        const row = document.createElement('tr');
-                        
-                        // Handle both array format and object format
-                        if (Array.isArray(part)) {
-                            // Array format: [part_number, availability, price, location]
-                            row.innerHTML = `
-                                <td>${result.supplier || 'Unknown'}</td>
-                                <td>${part[0] || 'N/A'}</td>
-                                <td>${part[1] || 'N/A'}</td>
-                                <td>${part[2] || 'N/A'}</td>
-                                <td>${part[3] || 'N/A'}</td>
-                                <td>N/A</td>
-                            `;
-                        } else {
-                            // Object format: {part_number, stock/availability, price, location, description}
-                            row.innerHTML = `
-                                <td>${result.supplier || 'Unknown'}</td>
-                                <td>${part.part_number || 'N/A'}</td>
-                                <td>${part.availability || part.stock || 'N/A'}</td>
-                                <td>${part.price || 'N/A'}</td>
-                                <td>${part.location || 'N/A'}</td>
-                                <td>${part.description || 'N/A'}</td>
-                            `;
-                        }
-                        combinedResultsBody.appendChild(row);
-                    });
-                }
             });
-        })
-        .catch(error => {
-            console.error('Error loading results:', error);
-            // Show error message
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('results-container').style.display = 'block';
-            document.getElementById('vendor-cards').innerHTML = `
-                <div class="col-12">
-                    <div class="alert alert-danger">
-                        <h4>Error Loading Results</h4>
-                        <p>There was a problem loading the search results. Please try again later.</p>
-                        <p>Technical details: ${error.message}</p>
-                    </div>
-                </div>
-            `;
-        });
-}
+    }
     
     // Start status updates
     updateStatus();
