@@ -2448,3 +2448,169 @@
 2025-04-16 19:20:49,367 - GlassScraper - INFO - PWG scraper completed in 30.33s for part 2000
 2025-04-16 19:20:50,243 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:50] "GET /api/status/2000 HTTP/1.1" 200 -
 2025-04-16 19:20:50,254 - werkzeug - INFO - 192.168.59.69 - - [16/Apr/2025 19:20:50] "GET /api/results/2000 HTTP/1.1" 200 -
+2025-04-17 14:52:02,074 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.2.0.89:5000
+2025-04-17 14:52:02,075 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-17 14:52:02,078 - werkzeug - INFO -  * Restarting with stat
+2025-04-17 14:52:02,913 - werkzeug - WARNING -  * Debugger is active!
+2025-04-17 14:52:02,926 - werkzeug - INFO -  * Debugger PIN: 386-850-684
+2025-04-17 14:52:06,352 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:06] "GET / HTTP/1.1" 200 -
+2025-04-17 14:52:06,429 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:06] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-17 14:52:08,179 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:08] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-17 14:52:11,057 - GlassScraper - INFO - Starting Import Glass Corp scraper for part: 2000
+2025-04-17 14:52:11,059 - Scrapers.igc_scraper - INFO - [IGC] Starting login process
+2025-04-17 14:52:11,060 - GlassScraper - INFO - Starting Mygrant Glass scraper for part: 2000
+2025-04-17 14:52:11,060 - GlassScraper - INFO - Starting Pilkington scraper for part: 2000
+2025-04-17 14:52:11,061 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-17 14:52:11,061 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:11] "[32mPOST /search HTTP/1.1[0m" 302 -
+2025-04-17 14:52:11,062 - GlassScraper - INFO - Logging in to Pilkington website
+2025-04-17 14:52:11,062 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-17 14:52:11,065 - Scrapers.mygrant_scraper - INFO - [Mygrant] Searching for part number: 2000
+2025-04-17 14:52:11,066 - GlassScraper - INFO - Searching part in PWG: 2000
+2025-04-17 14:52:11,068 - Scrapers.mygrant_scraper - INFO - Logging in to MyGrant
+2025-04-17 14:52:11,070 - GlassScraper - INFO - Checking if already logged in
+2025-04-17 14:52:11,116 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:11] "GET /results/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:11,146 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-17 14:52:11,179 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:11] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:12,186 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:12] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:12,398 - Scrapers.igc_scraper - INFO - [IGC] Saved cookies are invalid, performing fresh login
+2025-04-17 14:52:13,179 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:13] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:13,463 - GlassScraper - INFO - Loaded URL 1 in 2.40s
+2025-04-17 14:52:13,464 - GlassScraper - INFO - Login check completed in 0.00s
+2025-04-17 14:52:13,482 - GlassScraper - INFO - Submitting search to https://buypgwautoglass.com/rspAuthenticate.asp
+2025-04-17 14:52:13,661 - Scrapers.igc_scraper - INFO - [IGC] Login successful!
+2025-04-17 14:52:13,663 - Scrapers.igc_scraper - INFO - [IGC] Searching for part number: 2000
+2025-04-17 14:52:13,741 - Scrapers.mygrant_scraper - INFO - [Mygrant] Login successful in 2.68 seconds!
+2025-04-17 14:52:14,065 - Scrapers.igc_scraper - INFO - [IGC] Found 7 parts in search results in 0.40 seconds
+2025-04-17 14:52:14,065 - Scrapers.igc_scraper - INFO - [IGC] Processing details for 7 parts
+2025-04-17 14:52:14,189 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:14] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:14,346 - Scrapers.mygrant_scraper - INFO - Found 3 part cells
+2025-04-17 14:52:14,347 - Scrapers.mygrant_scraper - INFO - Extracted part: DW02000 GTY FYG
+2025-04-17 14:52:14,347 - Scrapers.mygrant_scraper - INFO - Extracted part: FW02000 GBN XYG
+2025-04-17 14:52:14,348 - Scrapers.mygrant_scraper - INFO - Extracted part: WKT F2000 GOLD
+2025-04-17 14:52:14,349 - Scrapers.mygrant_scraper - INFO - [Mygrant] Search completed in 3.28s, found 3 results
+2025-04-17 14:52:14,360 - GlassScraper - INFO - Mygrant Glass scraper completed in 3.30s for part 2000
+2025-04-17 14:52:14,848 - GlassScraper - INFO - Search form submitted in 1.38s
+2025-04-17 14:52:14,849 - GlassScraper - INFO - Part number 2000 not found in page source, skipping detailed parsing
+2025-04-17 14:52:14,995 - GlassScraper - INFO - Proceeding with login
+2025-04-17 14:52:15,190 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:15] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:16,189 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:16] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:16,742 - GlassScraper - INFO - Loaded URL 2 in 1.89s
+2025-04-17 14:52:16,743 - GlassScraper - INFO - Login check completed in 0.00s
+2025-04-17 14:52:16,760 - GlassScraper - INFO - Submitting search to https://buypgwautoglass.com/rspAuthenticate.asp
+2025-04-17 14:52:17,235 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:17] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:17,255 - GlassScraper - WARNING - Could not find login form
+2025-04-17 14:52:17,280 - GlassScraper - INFO - Trying direct navigation to bypass login
+2025-04-17 14:52:17,284 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: DW02000, Availability: Yes, Price: $151.62, Location: Opa-Locka
+2025-04-17 14:52:17,287 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: FW02000, Availability: Yes, Price: $80.66, Location: Opa-Locka
+2025-04-17 14:52:17,288 - Scrapers.igc_scraper - INFO - [IGC] Processed 2/7 parts in 3.22 seconds
+2025-04-17 14:52:17,289 - GlassScraper - INFO - Import Glass Corp scraper completed in 6.23s for part 2000
+2025-04-17 14:52:18,188 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:18] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:18,230 - GlassScraper - INFO - Direct navigation successful - bypassed login
+2025-04-17 14:52:18,231 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-17 14:52:18,269 - GlassScraper - INFO - Search form submitted in 1.53s
+2025-04-17 14:52:18,270 - GlassScraper - INFO - Part number 2000 not found in page source, skipping detailed parsing
+2025-04-17 14:52:18,271 - GlassScraper - WARNING - Could not find part 2000 on any PWG URLs
+2025-04-17 14:52:18,273 - GlassScraper - INFO - Returning default parts after 7.21s
+2025-04-17 14:52:18,273 - GlassScraper - INFO - PWG scraper completed in 7.21s
+2025-04-17 14:52:18,274 - GlassScraper - INFO - PWG scraper completed in 7.21s for part 2000
+2025-04-17 14:52:18,728 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-17 14:52:19,184 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:19] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:19,205 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-17 14:52:19,681 - GlassScraper - INFO - Retrying search (attempt 2/2)
+2025-04-17 14:52:20,181 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:20] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:20,682 - GlassScraper - INFO - Using cached Pilkington login session
+2025-04-17 14:52:20,683 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-17 14:52:21,161 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-17 14:52:21,193 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:21] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:21,805 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-17 14:52:22,188 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:22] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:22,356 - GlassScraper - WARNING - No parts found for 2000 after 2 attempts, returning default parts
+2025-04-17 14:52:22,356 - GlassScraper - INFO - Pilkington scraper completed in 11.29 seconds (default data)
+2025-04-17 14:52:22,357 - GlassScraper - INFO - Pilkington scraper completed in 11.30s for part 2000
+2025-04-17 14:52:23,182 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:23] "GET /api/status/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:52:23,199 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:52:23] "GET /api/results/b44e410c-c87d-4106-ba12-52a8c3964845 HTTP/1.1" 200 -
+2025-04-17 14:57:39,423 - werkzeug - INFO -  * Detected change in 'c:\\Users\\Arsalan-Dev\\Desktop\\scrapper_with_request\\main.py', reloading
+2025-04-17 14:57:39,524 - werkzeug - INFO -  * Restarting with stat
+2025-04-17 14:57:40,911 - GlassScraper - INFO - Created schema.sql file
+2025-04-17 14:57:40,953 - GlassScraper - INFO - Database initialized
+2025-04-17 14:57:40,986 - werkzeug - WARNING -  * Debugger is active!
+2025-04-17 14:57:40,989 - werkzeug - INFO -  * Debugger PIN: 386-850-684
+2025-04-17 14:58:18,736 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:18] "GET / HTTP/1.1" 200 -
+2025-04-17 14:58:18,801 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:18] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-17 14:58:21,564 - GlassScraper - INFO - Starting Import Glass Corp scraper for part: 2000
+2025-04-17 14:58:21,564 - GlassScraper - INFO - Starting Mygrant Glass scraper for part: 2000
+2025-04-17 14:58:21,565 - Scrapers.igc_scraper - INFO - [IGC] Starting login process
+2025-04-17 14:58:21,566 - GlassScraper - INFO - Starting Pilkington scraper for part: 2000
+2025-04-17 14:58:21,566 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-17 14:58:21,567 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:21] "[32mPOST /search HTTP/1.1[0m" 302 -
+2025-04-17 14:58:21,568 - GlassScraper - INFO - Logging in to Pilkington website
+2025-04-17 14:58:21,568 - GlassScraper - INFO - Starting PWG scraper for part: 2000
+2025-04-17 14:58:21,572 - Scrapers.mygrant_scraper - INFO - [Mygrant] Searching for part number: 2000
+2025-04-17 14:58:21,574 - GlassScraper - INFO - Searching part in PWG: 2000
+2025-04-17 14:58:21,576 - Scrapers.mygrant_scraper - INFO - Logging in to MyGrant
+2025-04-17 14:58:21,586 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:21] "GET /results/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:21,589 - GlassScraper - INFO - Checking if already logged in
+2025-04-17 14:58:21,621 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-17 14:58:21,636 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:21] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:22,601 - Scrapers.igc_scraper - INFO - [IGC] Saved cookies are invalid, performing fresh login
+2025-04-17 14:58:22,639 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:22] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:23,636 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:23] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:23,865 - Scrapers.igc_scraper - INFO - [IGC] Login successful!
+2025-04-17 14:58:23,868 - Scrapers.igc_scraper - INFO - [IGC] Searching for part number: 2000
+2025-04-17 14:58:24,072 - GlassScraper - INFO - Loaded URL 1 in 2.49s
+2025-04-17 14:58:24,073 - GlassScraper - INFO - Login check completed in 0.00s
+2025-04-17 14:58:24,092 - GlassScraper - INFO - Submitting search to https://buypgwautoglass.com/rspAuthenticate.asp
+2025-04-17 14:58:24,299 - Scrapers.igc_scraper - INFO - [IGC] Found 7 parts in search results in 0.43 seconds
+2025-04-17 14:58:24,300 - Scrapers.mygrant_scraper - INFO - [Mygrant] Login successful in 2.73 seconds!
+2025-04-17 14:58:24,300 - Scrapers.igc_scraper - INFO - [IGC] Processing details for 7 parts
+2025-04-17 14:58:24,644 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:24] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:24,779 - Scrapers.mygrant_scraper - INFO - Found 3 part cells
+2025-04-17 14:58:24,780 - Scrapers.mygrant_scraper - INFO - Extracted part: DW02000 GTY FYG
+2025-04-17 14:58:24,782 - Scrapers.mygrant_scraper - INFO - Extracted part: FW02000 GBN XYG
+2025-04-17 14:58:24,783 - Scrapers.mygrant_scraper - INFO - Extracted part: WKT F2000 GOLD
+2025-04-17 14:58:24,784 - Scrapers.mygrant_scraper - INFO - [Mygrant] Search completed in 3.21s, found 3 results
+2025-04-17 14:58:24,805 - GlassScraper - INFO - Mygrant Glass scraper completed in 3.24s for part 2000
+2025-04-17 14:58:25,528 - GlassScraper - INFO - Search form submitted in 1.45s
+2025-04-17 14:58:25,529 - GlassScraper - INFO - Part number 2000 not found in page source, skipping detailed parsing
+2025-04-17 14:58:25,544 - GlassScraper - INFO - Proceeding with login
+2025-04-17 14:58:25,638 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:25] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:26,663 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:26] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:27,356 - GlassScraper - INFO - Loaded URL 2 in 1.82s
+2025-04-17 14:58:27,386 - GlassScraper - INFO - Login check completed in 0.00s
+2025-04-17 14:58:27,428 - GlassScraper - INFO - Submitting search to https://buypgwautoglass.com/rspAuthenticate.asp
+2025-04-17 14:58:27,576 - GlassScraper - WARNING - Could not find login form
+2025-04-17 14:58:27,603 - GlassScraper - INFO - Trying direct navigation to bypass login
+2025-04-17 14:58:27,618 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: DW02000, Availability: Yes, Price: $151.62, Location: Opa-Locka
+2025-04-17 14:58:27,619 - Scrapers.igc_scraper - INFO - [IGC] Matched Part: FW02000, Availability: Yes, Price: $80.66, Location: Opa-Locka
+2025-04-17 14:58:27,620 - Scrapers.igc_scraper - INFO - [IGC] Processed 2/7 parts in 3.32 seconds
+2025-04-17 14:58:27,640 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:27] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:27,647 - GlassScraper - INFO - Import Glass Corp scraper completed in 6.08s for part 2000
+2025-04-17 14:58:28,625 - GlassScraper - INFO - Direct navigation successful - bypassed login
+2025-04-17 14:58:28,626 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-17 14:58:28,648 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:28] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:28,760 - GlassScraper - INFO - Search form submitted in 1.34s
+2025-04-17 14:58:28,761 - GlassScraper - INFO - Part number 2000 not found in page source, skipping detailed parsing
+2025-04-17 14:58:28,762 - GlassScraper - WARNING - Could not find part 2000 on any PWG URLs
+2025-04-17 14:58:28,762 - GlassScraper - INFO - Returning default parts after 7.19s
+2025-04-17 14:58:28,763 - GlassScraper - INFO - PWG scraper completed in 7.19s
+2025-04-17 14:58:28,790 - GlassScraper - INFO - PWG scraper completed in 7.22s for part 2000
+2025-04-17 14:58:29,355 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-17 14:58:29,642 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:29] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:29,834 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-17 14:58:30,646 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:30] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:30,788 - GlassScraper - INFO - Retrying search (attempt 2/2)
+2025-04-17 14:58:31,640 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:31] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:31,789 - GlassScraper - INFO - Using cached Pilkington login session
+2025-04-17 14:58:31,790 - GlassScraper - INFO - Searching part in Pilkington (Method 1): 2000
+2025-04-17 14:58:32,482 - GlassScraper - INFO - Searching part in Pilkington (Method 2): 2000
+2025-04-17 14:58:32,640 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:32] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:33,091 - GlassScraper - INFO - Searching part in Pilkington (Method 3): 2000
+2025-04-17 14:58:33,638 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:33] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:33,895 - GlassScraper - WARNING - No parts found for 2000 after 2 attempts, returning default parts
+2025-04-17 14:58:33,896 - GlassScraper - INFO - Pilkington scraper completed in 12.33 seconds (default data)
+2025-04-17 14:58:33,915 - GlassScraper - INFO - Pilkington scraper completed in 12.35s for part 2000
+2025-04-17 14:58:34,643 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:34] "GET /api/status/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
+2025-04-17 14:58:34,661 - werkzeug - INFO - 10.2.0.89 - - [17/Apr/2025 14:58:34] "GET /api/results/040b2846-d90b-4673-947f-1856881e59f4 HTTP/1.1" 200 -
